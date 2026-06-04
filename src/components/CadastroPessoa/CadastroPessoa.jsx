@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useState } from 'react';
 import { cadastrarPessoa, buscarEnderecoPorCep } from '../../services/api';
 import './CadastroPessoa.css';
@@ -15,6 +15,7 @@ function CadastroPessoa() {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -69,9 +70,24 @@ function CadastroPessoa() {
         {/* CPF */}
         <div className="campo">
           <label>CPF</label>
-          <input
-            {...register('documentoCpf', { required: 'O campo CPF é obrigatório' })}
-            placeholder="123.456.789-09"
+          <Controller
+            name="documentoCpf"
+            control={control}
+            rules={{ required: 'O campo CPF é obrigatório' }}
+            render={({ field }) => (
+              <input
+                {...field}
+                placeholder="123.456.789-09"
+                maxLength={14}
+                onChange={(e) => {
+                  const v = e.target.value.replace(/\D/g, '')
+                    .replace(/(\d{3})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                  field.onChange(v);
+                }}
+              />
+            )}
           />
           {errors.documentoCpf && <span className="erro">{errors.documentoCpf.message}</span>}
         </div>
@@ -102,10 +118,23 @@ function CadastroPessoa() {
         {/* CEP */}
         <div className="campo">
           <label>CEP</label>
-          <input
-            {...register('cep', { required: 'O campo CEP é obrigatório' })}
-            placeholder="01001-000"
-            onBlur={handleCepBlur}
+          <Controller
+            name="cep"
+            control={control}
+            rules={{ required: 'O campo CEP é obrigatório' }}
+            render={({ field }) => (
+              <input
+                {...field}
+                placeholder="01001-000"
+                maxLength={9}
+                onChange={(e) => {
+                  const v = e.target.value.replace(/\D/g, '')
+                    .replace(/(\d{5})(\d)/, '$1-$2');
+                  field.onChange(v);
+                }}
+                onBlur={handleCepBlur}
+              />
+            )}
           />
           {errors.cep && <span className="erro">{errors.cep.message}</span>}
         </div>
