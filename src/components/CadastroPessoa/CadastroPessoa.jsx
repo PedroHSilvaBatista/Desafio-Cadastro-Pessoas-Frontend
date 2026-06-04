@@ -52,6 +52,7 @@ function CadastroPessoa() {
     const hoje = new Date().toISOString().split('T')[0];
     if (dados.dataNascimento > hoje) {
       setErroBackend({ title: 'Data inválida', detail: 'A data de nascimento não pode ser futura' });
+      setLoading(false);
       return;
     }
 
@@ -212,6 +213,15 @@ function CadastroPessoa() {
         <div className="erro-backend">
           <p><strong>{erroBackend.title}</strong></p>
           <p>{erroBackend.detail}</p>
+          {erroBackend.Details && erroBackend.Details.length > 0 && (
+            <ul style={{ marginTop: '8px', paddingLeft: '16px' }}>
+              {erroBackend.Details.map((item, index) => (
+                <li key={index} style={{ fontSize: '13px', marginTop: '4px' }}>
+                  <strong>{item.campo}:</strong> {item.mensagem}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 
