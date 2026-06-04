@@ -49,6 +49,12 @@ function CadastroPessoa() {
     .trim()
     .replace(/\s+/g, ' ');
 
+    const hoje = new Date().toISOString().split('T')[0];
+    if (dados.dataNascimento > hoje) {
+      setErroBackend({ title: 'Data inválida', detail: 'A data de nascimento não pode ser futura' });
+      return;
+    }
+
     const dadosFormatados = { ...dados, nomeCompleto: nomeNormalizado};
     
     try {
