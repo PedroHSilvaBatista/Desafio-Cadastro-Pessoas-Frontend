@@ -41,8 +41,18 @@ function CadastroPessoa() {
     setErroBackend(null);
     setPessoaCadastrada(null);
 
+    const nomeNormalizado = dados.nomeCompleto
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ç/g, 'c')
+    .replace(/Ç/g, 'C')
+    .trim()
+    .replace(/\s+/g, ' ');
+
+    const dadosFormatados = { ...dados, nomeCompleto: nomeNormalizado};
+    
     try {
-      const response = await cadastrarPessoa(dados);
+      const response = await cadastrarPessoa(dadosFormatados);
       setPessoaCadastrada(response);
     } catch (erro) {
       setErroBackend(erro.response?.data);
