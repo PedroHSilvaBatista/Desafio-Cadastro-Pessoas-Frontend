@@ -23,13 +23,21 @@ Interface web desenvolvida em **React + Vite** para o cadastro de pessoas, consu
 
 ## Como Rodar
 
-Instale as dependências:
+### 1. Clonar o Repositório
+
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio-frontend.git
+```
+
+Ou baixe o `.zip` pelo GitHub e extraia na pasta de sua preferência.
+
+### 2. Instalar as Dependências
 
 ```bash
 npm install
 ```
 
-Inicie a aplicação:
+### 3. Executar
 
 ```bash
 npm run dev
@@ -81,7 +89,7 @@ Utilizado para gerenciamento do formulário e validações no cliente. Oferece m
 ### Axios
 Utilizado para as chamadas HTTP à API. Centralizado no `services/api.js` com a URL base configurada, evitando repetição em cada chamada.
 
-### Normalização do campo nome no front-end
+### Normalização do nome no front-end
 O nome é normalizado antes do envio para melhorar a experiência do usuário — ele digita normalmente com acentos e o sistema trata automaticamente, sem exibir erros desnecessários. O back-end também realiza essa normalização como camada de segurança adicional.
 
 ### Máscaras manuais sem biblioteca externa
