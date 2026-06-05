@@ -23,12 +23,6 @@ Interface web desenvolvida em **React + Vite** para o cadastro de pessoas, consu
 
 ## Como Rodar
 
-Acesse a pasta do projeto:
-
-```bash
-cd cadastro-pessoas-front
-```
-
 Instale as dependências:
 
 ```bash
