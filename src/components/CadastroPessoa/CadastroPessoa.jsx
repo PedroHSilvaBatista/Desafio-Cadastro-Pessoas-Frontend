@@ -38,10 +38,10 @@ function CadastroPessoa() {
       try {
         const endereco = await buscarEnderecoPorCep(cep);
         if (!endereco.erro) {
-          setValue('logradouro', endereco.logradouro);
-          setValue('bairro', endereco.bairro);
-          setValue('cidade', endereco.localidade);
-          setValue('estado', endereco.uf);
+          setValue('logradouro', endereco.logradouro, { shouldValidate: true });
+          setValue('bairro', endereco.bairro, { shouldValidate: true });
+          setValue('cidade', endereco.localidade, { shouldValidate: true });
+          setValue('estado', endereco.uf, { shouldValidate: true });
         }
       } catch {
         console.error('Erro ao buscar CEP');
@@ -94,7 +94,10 @@ function CadastroPessoa() {
     <div className="cadastro-container">
       <h1>Cadastro de Pessoa</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, () => {
+        setPessoaCadastrada(null);
+        setErroBackend(null);
+      })}>
 
         {/* Nome Completo */}
         <div className="campo">
@@ -184,6 +187,7 @@ function CadastroPessoa() {
           <input
             {...register('logradouro', { required: 'O campo logradouro é obrigatório' })}
             placeholder="Preenchido automaticamente"
+            readOnly
           />
           {errors.logradouro && <span className="erro">{errors.logradouro.message}</span>}
         </div>
@@ -200,6 +204,7 @@ function CadastroPessoa() {
           <input
             {...register('bairro', { required: 'O campo bairro é obrigatório' })}
             placeholder="Preenchido automaticamente"
+            readOnly
           />
           {errors.bairro && <span className="erro">{errors.bairro.message}</span>}
         </div>
@@ -210,6 +215,7 @@ function CadastroPessoa() {
           <input
             {...register('cidade', { required: 'O campo cidade é obrigatório' })}
             placeholder="Preenchido automaticamente"
+            readOnly
           />
           {errors.cidade && <span className="erro">{errors.cidade.message}</span>}
         </div>
@@ -220,6 +226,7 @@ function CadastroPessoa() {
           <input
             {...register('estado', { required: 'O campo estado é obrigatório' })}
             placeholder="Preenchido automaticamente"
+            readOnly
           />
           {errors.estado && <span className="erro">{errors.estado.message}</span>}
         </div>
