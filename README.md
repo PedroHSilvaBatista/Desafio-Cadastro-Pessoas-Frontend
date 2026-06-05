@@ -17,7 +17,7 @@ Interface web desenvolvida em **React + Vite** para o cadastro de pessoas, consu
 
 - Node.js 20.19+
 - npm
-- Back-end rodando em `http://localhost:8080`
+- Back-end rodando e acessível — a porta padrão utilizada é a `8080` do Spring Boot
 
 ---
 
@@ -45,7 +45,7 @@ npm run dev
 
 A aplicação estará disponível em `http://localhost:5173`.
 
-> **Atenção:** o front-end verifica automaticamente se o back-end está online ao carregar. Certifique-se de que a API está rodando antes de abrir a aplicação.
+> **Atenção:** o front-end verifica automaticamente se o back-end está online ao carregar. Certifique-se de que o back-end está rodando antes de abrir a aplicação. A comunicação é feita com a porta padrão do Spring Boot (`8080`). Caso esteja em outra porta, atualize o valor de `baseURL` em `src/services/api.js`.
 
 ---
 
