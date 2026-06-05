@@ -23,14 +23,18 @@ function App() {
   }, []);
 
   if (apiOnline === null) {
-    return <p style={{ textAlign: 'center', marginTop: '40px' }}> Verificando conexão com a API...</p>
+    return (
+      <div className="api-status-container">
+        <p className="api-status-mensagem">Verificando conexão com a API...</p>
+      </div>
+    );
   }
 
   if (apiOnline === false) {
     return (
-      <p style={{ textAlign: 'center', marginTop: '40px', color: '#dc2626' }}>
-        Não foi possível conectar à API. Verifique se o back-end está rodando.
-      </p>
+      <div className="api-status-container">
+        <p className="api-status-mensagem">Não foi possível conectar à API.</p>
+      </div>
     );
   }
 
