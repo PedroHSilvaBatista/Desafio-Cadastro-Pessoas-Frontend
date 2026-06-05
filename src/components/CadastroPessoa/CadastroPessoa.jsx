@@ -3,6 +3,15 @@ import { useState } from 'react';
 import { cadastrarPessoa, buscarEnderecoPorCep } from '../../services/api';
 import './CadastroPessoa.css';
 
+/**
+ * Componente principal de cadastro de pessoas.
+ * Responsável por:
+ * - Renderizar o formulário de cadastro
+ * - Validar os campos no cliente
+ * - Buscar endereço automaticamente via ViaCEP
+ * - Enviar os dados para o back-end
+ * - Exibir o resultado do cadastro ou erros ao usuário
+*/
 function CadastroPessoa() {
   // Controla se está carregando (enviando o formulário)
   const [loading, setLoading] = useState(false);
@@ -19,6 +28,10 @@ function CadastroPessoa() {
     formState: { errors },
   } = useForm();
 
+  /**
+  * Busca o endereço automaticamente no ViaCEP quando o usuário
+  * sai do campo CEP. Remove caracteres não numéricos antes de consultar.
+  */
   const handleCepBlur = async (e) => {
     const cep = e.target.value.replace(/\D/g, '');
     if (cep.length === 8) {
@@ -36,11 +49,18 @@ function CadastroPessoa() {
     }
   };
 
+  /**
+  * Responsável por tratar e enviar os dados do formulário para o back-end.
+  * Antes do envio:
+  * - Normaliza o nome removendo acentos, cedilhas e espaços excedentes
+  * - Valida se a data de nascimento não é futura
+  */
   const onSubmit = async (dados) => {
     setLoading(true);
     setErroBackend(null);
     setPessoaCadastrada(null);
 
+    // Remove acentos, cedilha e espaços excedentes do nome
     const nomeNormalizado = dados.nomeCompleto
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -49,6 +69,7 @@ function CadastroPessoa() {
     .trim()
     .replace(/\s+/g, ' ');
 
+    // Impede cadastro com data de nascimento futura
     const hoje = new Date().toISOString().split('T')[0];
     if (dados.dataNascimento > hoje) {
       setErroBackend({ title: 'Data inválida', detail: 'A data de nascimento não pode ser futura' });
@@ -62,6 +83,7 @@ function CadastroPessoa() {
       const response = await cadastrarPessoa(dadosFormatados);
       setPessoaCadastrada(response);
     } catch (erro) {
+      // Captura e exibe erros retornados pelo back-end
       setErroBackend(erro.response?.data);
     } finally {
       setLoading(false);
